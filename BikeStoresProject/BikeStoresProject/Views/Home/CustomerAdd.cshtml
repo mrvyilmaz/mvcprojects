@@ -1,0 +1,51 @@
+﻿@model BikeStoresProject.Models.customers
+@{
+    ViewBag.Title = "CustomerAdd";
+}
+
+
+<div class="row" style="padding: 10px;">
+    <form action="/Home/CustomerAdd" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="customer_id" value="@Model.customer_id" />
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="firstname">First Name</label>
+                <input type="text" class="form-control" name="first_name" id="firstname" value="@Model.first_name" />
+            </div>
+            <div class="form-group">
+                <label for="lastname">Last Name</label>
+                <input type="text" class="form-control" name="last_name" id="lastname" value="@Model.last_name" />
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" class="form-control" name="phone" id="phone" value="@Model.phone" />
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="text" class="form-control" name="email" id="email" value="@Model.email" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="street">Street</label>
+                <input type="text" class="form-control" name="street" id="street" value="@Model.street" />
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" class="form-control" name="city" id="city" value="@Model.city" />
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <input type="text" class="form-control" name="state" id="state" value="@Model.state" />
+            </div>
+            <div class="form-group">
+                <label for="zipcode">Zip Code</label>
+                <input type="text" class="form-control" name="zip_code" id="zipcode" value="@Model.zip_code" />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-success pull-left">Ekle</button>
+        </div>
+    </form>
+</div>
+
