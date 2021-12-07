@@ -1,7 +1,9 @@
 ﻿@model List<BikeStoresProject.Models.customers>
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Customer List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="row" style="padding:10px;">
     <a href="/Home/CustomerAdd" class="btn btn-sm btn-success pull-right"> Ekle</a>
 </div>
@@ -47,3 +49,5 @@
         </table>
     </div>
 </div>
+
+
