@@ -1,0 +1,72 @@
+﻿@model BikeStoresProject.ViewModels.HomeModels.ProductClass
+@{
+    ViewBag.Title = "Product Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" style="padding: 30px 10px;">
+    <form action="/Home/ProductAdd" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="product_id" value="@Model.product.product_id" />
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="product_name">Product Name</label>
+                <input type="text" class="form-control" name="product_name" id="product_name" value="@Model.product.product_name" />
+            </div>
+            <div class="form-group">
+                <label for="model_year">Model Year</label>
+                <input type="text" class="form-control" name="model_year" id="model_year" value="@Model.product.model_year" />
+            </div>
+            <div class="form-group">
+                <label for="list_price">List Price</label>
+                <input type="text" class="form-control" name="list_price" id="list_price" value="@Model.product.list_price" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="brandname">Brand Name</label>
+                <select class="form-control" name="brand_id" id="brandname" required>
+                    @if (Model.brandList.Count() > 0)
+                    {
+                        foreach (var item in Model.brandList)
+                        {
+                            if (Model.product.brand_id == item.brand_id)
+                            {
+                                <option value="@item.brand_id" selected>@item.brand_name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.brand_id">@item.brand_name</option>
+                            }
+
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="categoryname">Category Name</label>
+                <select class="form-control" name="category_id" id="categoryname" required>
+                    @if (Model.categoryList.Count() > 0)
+                    {
+                        foreach (var item in Model.categoryList)
+                        {
+                            if (Model.product.category_id == item.category_id)
+                            {
+                                <option value="@item.category_id" selected>@item.category_name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.category_id">@item.category_name</option>
+                            }
+
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-success pull-left">Ekle</button>
+        </div>
+    </form>
+</div>
+
+

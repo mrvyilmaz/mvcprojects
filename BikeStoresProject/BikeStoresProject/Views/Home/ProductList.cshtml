@@ -1,0 +1,50 @@
+﻿@model List<BikeStoresProject.Models.products>
+@{
+    ViewBag.Title = "ProductList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" style="padding:10px;">
+    <a href="/Home/ProductAdd" class="btn btn-sm btn-success pull-right"> Ekle</a>
+</div>
+<div class="row">
+    <div class="table-responsive" style="padding: 10px;">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Brand Name</th>
+                    <th>Category Name</th>
+                    <th>Model Year</th>
+                    <th>List Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.product_name</td>
+                            <td>@item.brands.brand_name</td>
+                            <td>@item.categories.category_name</td>
+                            <td>@item.model_year</td>
+                            <td>@item.list_price</td>
+                            <td>
+                                <a href="/Home/ProductDelete/?id=@item.product_id" class="btn btn-sm btn-danger">Sil</a>
+                                <a href="/Home/ProductAdd/?id=@item.product_id" class="btn btn-sm btn-warning">Güncelle</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6">Kayıt bulunamadı</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

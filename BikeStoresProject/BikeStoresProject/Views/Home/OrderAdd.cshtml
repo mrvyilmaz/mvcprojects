@@ -1,0 +1,68 @@
+﻿@model BikeStoresProject.ViewModels.HomeModels.OrderClass
+@{
+    ViewBag.Title = "OrderAdd";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row" style="padding: 30px 10px;">
+    <form action="/Home/OrderAdd" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="@Model.order_id" />
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="customersname">Customer Names</label>
+                <select class="form-control" name="customer_id" id="customername" required>
+                    @if (Model.customerList.Count() > 0)
+                    {
+                        foreach (var item in Model.customerList)
+                        {
+                            <option value="@item.customer_id">@item.first_name @item.last_name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="productsname">Product Name</label>
+                <select class="form-control" name="product_id" id="productsname" required>
+                    @if (Model.productList.Count() > 0)
+                    {
+                        foreach (var item in Model.productList)
+                        {
+                            <option value="@item.product_id">@item.product_name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="staffsname">Staff Name</label>
+                <select class="form-control" name="staff_id" id="staffsname" required>
+                    @if (Model.staffList.Count() > 0)
+                    {
+                        foreach (var item in Model.staffList)
+                        {
+                            <option value="@item.staff_id">@item.first_name @item.last_name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="list_price">List Price</label>
+                <input type="text" class="form-control" name="list_price" id="list_price" value="" />
+            </div>
+            <div class="form-group">
+                <label for="discount">Discount</label>
+                <input type="text" class="form-control" name="discount" id="discount" value="" />
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input type="text" class="form-control" name="quantity" id="quantity" value="" />
+            </div>
+        </div>
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-success pull-left">Ekle</button>
+        </div>
+    </form>
+</div>
