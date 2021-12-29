@@ -107,5 +107,10 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="getProductTable" FunctionName="BikeStoresModel.Store.getProductTable" />
+    <FunctionImportMapping FunctionImportName="getCustomersTable" FunctionName="BikeStoresModel.Store.getCustomersTable" />
+    <FunctionImportMapping FunctionImportName="udfProductInYear" FunctionName="BikeStoresModel.Store.udfProductInYear" />
+    <FunctionImportMapping FunctionImportName="uspFindProducts" FunctionName="BikeStoresModel.Store.uspFindProducts" />
+    <FunctionImportMapping FunctionImportName="uspProductList" FunctionName="BikeStoresModel.Store.uspProductList" />
   </EntityContainerMapping>
 </Mapping>

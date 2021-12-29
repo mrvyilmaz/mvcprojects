@@ -249,6 +249,63 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="getCustomersTable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="city" Type="nvarchar(max)" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="customer_id" Type="int" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="last_name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="25" />
+          <Property Name="email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="street" Type="varchar" MaxLength="255" />
+          <Property Name="city" Type="varchar" MaxLength="50" />
+          <Property Name="state" Type="varchar" MaxLength="25" />
+          <Property Name="zip_code" Type="varchar" MaxLength="5" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="getProductTable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="product_id" Type="int" Nullable="false" />
+          <Property Name="product_name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="brand_id" Type="int" Nullable="false" />
+          <Property Name="category_id" Type="int" Nullable="false" />
+          <Property Name="model_year" Type="smallint" Nullable="false" />
+          <Property Name="list_price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="udfProductInYear" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="start_year" Type="int" Mode="In" />
+    <Parameter Name="end_year" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="product_id" Type="int" Nullable="false" />
+          <Property Name="product_name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="brand_id" Type="int" Nullable="false" />
+          <Property Name="category_id" Type="int" Nullable="false" />
+          <Property Name="model_year" Type="smallint" Nullable="false" />
+          <Property Name="list_price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="uspFindProducts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="min_list_price" Type="decimal" Mode="In" />
+  </Function>
+  <Function Name="uspProductList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="udfNetSale" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="sales" ReturnType="decimal">
+    <Parameter Name="quantity" Type="int" Mode="In" />
+    <Parameter Name="list_price" Type="decimal" Mode="In" />
+    <Parameter Name="discount" Type="decimal" Mode="In" />
+  </Function>
   <EntityContainer Name="BikeStoresModelStoreContainer">
     <EntitySet Name="brands" EntityType="Self.brands" Schema="production" store:Type="Tables" />
     <EntitySet Name="categories" EntityType="Self.categories" Schema="production" store:Type="Tables" />

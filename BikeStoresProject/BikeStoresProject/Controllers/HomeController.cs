@@ -43,6 +43,9 @@ namespace BikeStoresProject.Controllers
 
                 customer = ent.customers.SqlQuery("select * from sales.customers where first_name='Abby'").FirstOrDefault();
 
+                //Table-valued Function with parameters
+                customerList = ent.getCustomersTable("New York").ToList();
+
             }
             catch (Exception) { throw; }
 
@@ -106,10 +109,10 @@ namespace BikeStoresProject.Controllers
 
         public ActionResult CustomerDelete(int? id = 0)
         {
-            BikeStoresEntities ent = new BikeStoresEntities();
-            customers model = new customers();
+            BikeStoresEntities ent = new BikeStoresEntities();            
             try
-            {
+            {   
+                customers model = new customers();
                 model = ent.customers.Find(id);
                 ent.customers.Remove(model);
                 ent.SaveChanges();
@@ -131,8 +134,28 @@ namespace BikeStoresProject.Controllers
 
             try
             {
-                //Tablolara arası entity ile geçiş
-                model = ent.products.OrderBy(q => q.product_name).ToList();
+                //model = ent.products.OrderBy(q => q.product_name).ToList();
+
+                /****** Table-valued Functions  ******/
+
+                // Entity ile tablolararası geçiş sağlıyor
+                model = ent.udfProductInYear(2017, 2018).ToList();
+
+                // Entity ile tablolararası geçiş sağlanmıyor
+                model = ent.Database.SqlQuery<products>(@"SELECT * FROM udfProductInYear(2017,2018)").ToList();
+
+                
+                /***** Stored Procedures  ******/
+
+                // Entity ile tablolararası geçiş sağlanmıyor
+                model = ent.Database.SqlQuery<products>(@"exec uspProductList").ToList();
+
+                // Entity ile tablolararası geçiş sağlıyor
+                model = ent.uspProductList().ToList();
+
+                model = ent.Database.SqlQuery<products>(@"exec uspFindProducts @min_price", new SqlParameter("@min_price", 100)).ToList();
+                model = ent.uspFindProducts(100).ToList();
+
             }
             catch (Exception) { throw; }
 
@@ -199,10 +222,10 @@ namespace BikeStoresProject.Controllers
 
         public ActionResult ProductDelete(int? id = 0)
         {
-            BikeStoresEntities ent = new BikeStoresEntities();
-            products model = new products();
+            BikeStoresEntities ent = new BikeStoresEntities();            
             try
             {
+                products model = new products();
                 ent.Database.ExecuteSqlCommand("delete from production.products where product_id = @id", new SqlParameter("@id", id));
 
                 //model = ent.products.Find(id);
@@ -225,11 +248,19 @@ namespace BikeStoresProject.Controllers
             List<OrderClass> model = new List<OrderClass>();
             try
             {
-                model = ent.Database.SqlQuery<OrderClass>(@"select c.first_name, c.last_name, p.product_name, oi.list_price, o.order_date, o.shipped_date from sales.orders o
+                model = ent.Database.SqlQuery<OrderClass>(@"select c.first_name, c.last_name, p.product_name, oi.list_price, oi.quantity, oi.discount, o.order_date from sales.orders o
                                                 inner join sales.customers c on c.customer_id = o.customer_id
                                                 inner join sales.order_items oi on oi.order_id = o.order_id
                                                 inner join production.products p on p.product_id = oi.product_id
                                                 order by c.first_name").ToList();
+
+
+                // Scalar-valued Functions
+
+                foreach (var item in model)
+                {
+                    item.net_price = ent.Database.SqlQuery<decimal>("SELECT sales.udfNetSale(@quantity,@list_price,@discount)", new SqlParameter("@quantity", item.quantity), new SqlParameter("@list_price", item.list_price), new SqlParameter("@discount", item.discount)).FirstOrDefault();
+                }
             }
             catch (Exception) { throw; }
 

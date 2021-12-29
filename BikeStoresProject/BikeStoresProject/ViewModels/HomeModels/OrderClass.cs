@@ -16,6 +16,9 @@ namespace BikeStoresProject.ViewModels.HomeModels
         public string product_name { get; set; }
         public int order_id { get; set; }
         public decimal list_price { get; set; }
+        public int quantity { get; set; }
+        public decimal discount { get; set; }
+        public decimal net_price { get; set; }
         public DateTime order_date { get; set; }
         public Nullable<DateTime> shipped_date { get; set; }
 
@@ -23,7 +26,7 @@ namespace BikeStoresProject.ViewModels.HomeModels
         {
             public int id { get; set; }
             public int customer_id { get; set; }
-            public int product_id { get; set; }            
+            public int product_id { get; set; }
             public int staff_id { get; set; }
             public decimal list_price { get; set; }
             public decimal discount { get; set; }

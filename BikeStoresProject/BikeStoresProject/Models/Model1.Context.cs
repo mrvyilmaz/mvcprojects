@@ -12,6 +12,8 @@ namespace BikeStoresProject.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class BikeStoresEntities : DbContext
     {
@@ -34,5 +36,63 @@ namespace BikeStoresProject.Models
         public virtual DbSet<orders> orders { get; set; }
         public virtual DbSet<staffs> staffs { get; set; }
         public virtual DbSet<stores> stores { get; set; }
+    
+        [DbFunction("BikeStoresEntities", "getProductTable")]
+        public virtual IQueryable<products> getProductTable()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<products>("[BikeStoresEntities].[getProductTable]()");
+        }
+    
+        [DbFunction("BikeStoresEntities", "getCustomersTable")]
+        public virtual IQueryable<customers> getCustomersTable(string city)
+        {
+            var cityParameter = city != null ?
+                new ObjectParameter("city", city) :
+                new ObjectParameter("city", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<customers>("[BikeStoresEntities].[getCustomersTable](@city)", cityParameter);
+        }
+    
+        [DbFunction("BikeStoresEntities", "udfProductInYear")]
+        public virtual IQueryable<products> udfProductInYear(Nullable<int> start_year, Nullable<int> end_year)
+        {
+            var start_yearParameter = start_year.HasValue ?
+                new ObjectParameter("start_year", start_year) :
+                new ObjectParameter("start_year", typeof(int));
+    
+            var end_yearParameter = end_year.HasValue ?
+                new ObjectParameter("end_year", end_year) :
+                new ObjectParameter("end_year", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<products>("[BikeStoresEntities].[udfProductInYear](@start_year, @end_year)", start_yearParameter, end_yearParameter);
+        }
+    
+        public virtual ObjectResult<products> uspFindProducts(Nullable<decimal> min_list_price)
+        {
+            var min_list_priceParameter = min_list_price.HasValue ?
+                new ObjectParameter("min_list_price", min_list_price) :
+                new ObjectParameter("min_list_price", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<products>("uspFindProducts", min_list_priceParameter);
+        }
+    
+        public virtual ObjectResult<products> uspFindProducts(Nullable<decimal> min_list_price, MergeOption mergeOption)
+        {
+            var min_list_priceParameter = min_list_price.HasValue ?
+                new ObjectParameter("min_list_price", min_list_price) :
+                new ObjectParameter("min_list_price", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<products>("uspFindProducts", mergeOption, min_list_priceParameter);
+        }
+    
+        public virtual ObjectResult<products> uspProductList()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<products>("uspProductList");
+        }
+    
+        public virtual ObjectResult<products> uspProductList(MergeOption mergeOption)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<products>("uspProductList", mergeOption);
+        }
     }
 }
